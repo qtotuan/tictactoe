@@ -1,0 +1,26 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "my tictactoe game ",
+  "main": "tictactoe.js",
+  "dependencies": {
+    "readline-sync": "^1.4.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qtotuan/tictactoe.git"
+  },
+  "keywords": [
+    "tictactoe"
+  ],
+  "author": "Quynh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qtotuan/tictactoe/issues"
+  },
+  "homepage": "https://github.com/qtotuan/tictactoe#readme"
+}

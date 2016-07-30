@@ -14,11 +14,28 @@ var board = [
 
 console.log(board);
 
-for (var i =0; i < 3; i++){
-  for (var j =0; j < 3; j++){
+
+// Print board
+var printBoard = function () {
+  for (var i =0; i < 3; i++){
+    for (var j =0; j < 3; j++){
     console.log(board[i][j]);
+    }
   }
 }
+
+printBoard();
+
+// Replace object in the board with symbol
+board[0][1] = "x";
+
+
+
+// Whose turn is it?
+
+
+
+
 
 for (var i =0; i < 3; i++){
   console.log(board[i].join(' | '));
