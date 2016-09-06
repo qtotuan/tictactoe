@@ -1,0 +1,36 @@
+.tictactoe-board {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tictactoe-cell {
+  text-align: center;
+  height: 50px;
+  vertical-align: middle;
+}
+
+.game {
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+}
+
+h4 {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.error {
+  color: red;
+}
+
+.u-borderBottom {
+  border-bottom: 2px solid;
+}
+
+.u-borderRight {
+  border-right: 2px solid;
+}
