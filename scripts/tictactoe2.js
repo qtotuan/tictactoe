@@ -171,7 +171,12 @@ var clickFunction = function(event) {
     writeSymbolToFrontEndBoard(cell);
     printBoard();
     checkWin();
-    changePlayer();
+
+    if (!isFull) {
+      changePlayer();
+      setPlayerSymbol();
+      $(".status").text("Player " + playerSymbol + ", you're up!");
+    }
 
   } else if (!isValid && !hasWon && !isFull) {
     $(".status").text("Occupied! Try another field.");
@@ -181,8 +186,7 @@ var clickFunction = function(event) {
 };
 
 var playerMessage = function () {
-  setPlayerSymbol();
-  $(".status").text("Player " + playerSymbol + ", you're up!");
+
 };
 
 $(document).ready(function() {
