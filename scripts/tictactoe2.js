@@ -12,7 +12,7 @@ var initializeGame = function () {
       board[i].push(j+3*(i));
     }
   }
-  $("button").removeClass("green-button");
+  $("button").attr("class", "btn btn-primary btn-lg");
   $("button").text("Reset Game");
   $("h4").attr("class", "status");
 
@@ -171,7 +171,7 @@ var clickFunction = function(event) {
     changePlayer();
   } else if (!isValid && !hasWon) {
     $(".status").text("Occupied! Try another field.");
-  } 
+  }
 };
 
 $(document).ready(function() {
