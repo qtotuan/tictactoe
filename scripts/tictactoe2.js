@@ -6,6 +6,7 @@ var hasWon = false;
 var isFull = false;
 
 var initializeGame = function () {
+  //Initialize new memory board
   board = [];
   for (var i = 0; i < 3; i++) {
     board.push([]);
@@ -13,18 +14,19 @@ var initializeGame = function () {
       board[i].push(j+3*(i));
     }
   }
+  printBoard();
+
+  //Reset global variables
+  currentPlayer = 1;
+  hasWon = false;
+  isFull = false;
+
+  //Get frontend ready: clear all additional designs from previous games
   $("button").attr("class", "btn btn-primary btn-lg");
   $("button").text("Reset Game");
   $("h4").attr("class", "status");
-
-  printBoard();
-  currentPlayer = 1;
-
-  //Clear frontend
   $(".tictactoe-cell").text("");
   $(".status").text("Someone click on a field - let's go!");
-  hasWon = false;
-  isFull = false;
 };
 
 var clearStatus = function() {
@@ -76,7 +78,6 @@ var checkWin = function() {
   }
   //Check if board is full and thus game over
   isFull = checkIfBoardFull();
-  console.log("The board is full: " + isFull);
   if (isFull) {
     $(".status").text("Game Over");
     $(".status").addClass("game-over-status");
@@ -103,6 +104,7 @@ var setWinningDesign = function() {
   hasWon = true;
 };
 
+//Check if the field is empty, not occupied, and map frontend board cell to memory board cell
 var checkIfValid = function (currentId) {
   var boardValue;
 
@@ -133,6 +135,7 @@ var checkIfValid = function (currentId) {
   }
 };
 
+//Map player choice in frontend to memory board
 var putElementIntoMemoryBoard = function(currentId) {
   if (currentId === "r1c1") {
     board[0][0] = playerSymbol;
@@ -155,6 +158,7 @@ var putElementIntoMemoryBoard = function(currentId) {
   }
 };
 
+//Game logic
 var clickFunction = function(event) {
   var cell = $(event.currentTarget);
   var currentId = cell.attr("id");
@@ -165,8 +169,6 @@ var clickFunction = function(event) {
     $(".status").text("You won, stop trying!");
   } else if (isValid && !hasWon) {
     setPlayerSymbol();
-    console.log("currentPlayer is : " + currentPlayer);
-    console.log("playerSymbol is: "+ playerSymbol);
     putElementIntoMemoryBoard(currentId);
     writeSymbolToFrontEndBoard(cell);
     printBoard();
@@ -183,10 +185,6 @@ var clickFunction = function(event) {
   } else if(!isValid && !hasWon && isFull) {
     $(".status").text("The game is over. Accept it.");
   }
-};
-
-var playerMessage = function () {
-
 };
 
 $(document).ready(function() {
