@@ -164,7 +164,7 @@ var clickFunction = function(event) {
     $(".status").text("You won, stop trying!");
   } else if (isValid && hasWon === false) {
     setPlayerSymbol();
-    $(".status").text("Player " + playerSymbol + ", you're up!");
+    //$(".status").text("Player " + playerSymbol + ", you're up!");
     putElementIntoMemoryBoard(currentId);
     writeSymbolToFrontEndBoard(cell);
     printBoard();
