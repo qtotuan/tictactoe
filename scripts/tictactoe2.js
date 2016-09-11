@@ -3,6 +3,7 @@ var board = [];
 var currentPlayer = 1;
 var playerSymbol = "";
 var hasWon = false;
+var isFull = false;
 
 var initializeGame = function () {
   board = [];
@@ -21,9 +22,9 @@ var initializeGame = function () {
 
   //Clear frontend
   $(".tictactoe-cell").text("");
-  //Clear memory board
-  //$(".status").text("Player O, you're up!");
+  $(".status").text("Someone click on a field - let's go!");
   hasWon = false;
+  isFull = false;
 };
 
 var clearStatus = function() {
@@ -74,11 +75,11 @@ var checkWin = function() {
     }
   }
   //Check if board is full and thus game over
-  var isFull = checkIfBoardFull();
-  console.log(isFull);
+  isFull = checkIfBoardFull();
+  console.log("The board is full: " + isFull);
   if (isFull) {
     $(".status").text("Game Over");
-    $("status").addClass("game-over-status");
+    $(".status").addClass("game-over-status");
     $("button").addClass("game-over-button");
   }
 };
@@ -162,17 +163,26 @@ var clickFunction = function(event) {
   var isValid = checkIfValid(currentId);
   if (hasWon) {
     $(".status").text("You won, stop trying!");
-  } else if (isValid && hasWon === false) {
+  } else if (isValid && !hasWon) {
     setPlayerSymbol();
-    //$(".status").text("Player " + playerSymbol + ", you're up!");
+    console.log("currentPlayer is : " + currentPlayer);
+    console.log("playerSymbol is: "+ playerSymbol);
     putElementIntoMemoryBoard(currentId);
     writeSymbolToFrontEndBoard(cell);
     printBoard();
     checkWin();
     changePlayer();
-  } else if (!isValid && !hasWon) {
+
+  } else if (!isValid && !hasWon && !isFull) {
     $(".status").text("Occupied! Try another field.");
+  } else if(!isValid && !hasWon && isFull) {
+    $(".status").text("The game is over. Accept it.");
   }
+};
+
+var playerMessage = function () {
+  setPlayerSymbol();
+  $(".status").text("Player " + playerSymbol + ", you're up!");
 };
 
 $(document).ready(function() {
