@@ -1,3 +1,7 @@
+.button-container {
+  text-align: center;
+}
+
 .game-over-button {
   background-color: #f21c1c;
   border: 0px;

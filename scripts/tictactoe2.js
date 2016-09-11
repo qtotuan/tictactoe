@@ -13,7 +13,7 @@ var initializeGame = function () {
   }
   $("button").removeClass("green-button");
   $("button").text("Reset Game");
-  $("h4").removeClass("winner-status");
+  $("h4").attr("class", "status");
 
 
   printBoard();
