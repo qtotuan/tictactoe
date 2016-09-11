@@ -2,6 +2,7 @@
 var board = [];
 var currentPlayer = 1;
 var playerSymbol = "";
+var hasWon = false;
 
 var initializeGame = function () {
   board = [];
@@ -15,7 +16,6 @@ var initializeGame = function () {
   $("button").text("Reset Game");
   $("h4").attr("class", "status");
 
-
   printBoard();
   currentPlayer = 1;
 
@@ -23,6 +23,7 @@ var initializeGame = function () {
   $(".tictactoe-cell").text("");
   //Clear memory board
   $(".status").text("");
+  hasWon = false;
 };
 
 var clearStatus = function() {
@@ -98,6 +99,7 @@ var setWinningDesign = function() {
   $(".status").addClass("winner-status");
   $("button").text("New Game");
   $("button").addClass("green-button");
+  hasWon = true;
 };
 
 var checkIfValid = function (currentId) {
@@ -158,16 +160,18 @@ var clickFunction = function(event) {
 
   clearStatus();
   var isValid = checkIfValid(currentId);
-  if (isValid) {
+  if (hasWon) {
+    $(".status").text("You won, stop trying!");
+  } else if (isValid && hasWon === false) {
     setPlayerSymbol();
     putElementIntoMemoryBoard(currentId);
     writeSymbolToFrontEndBoard(cell);
     printBoard();
     checkWin();
     changePlayer();
-  } else {
+  } else if (!isValid && !hasWon) {
     $(".status").text("Occupied! Try another field.");
-  }
+  } 
 };
 
 $(document).ready(function() {
