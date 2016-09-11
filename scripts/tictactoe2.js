@@ -172,7 +172,7 @@ var clickFunction = function(event) {
     printBoard();
     checkWin();
 
-    if (!isFull) {
+    if (!isFull && !hasWon) {
       changePlayer();
       setPlayerSymbol();
       $(".status").text("Player " + playerSymbol + ", you're up!");
