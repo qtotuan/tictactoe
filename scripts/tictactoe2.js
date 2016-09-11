@@ -11,6 +11,10 @@ var initializeGame = function () {
       board[i].push(j+3*(i));
     }
   }
+  $("button").removeClass("green-button");
+  $("button").text("Reset Game");
+  $("h4").removeClass("winner-status");
+
 
   printBoard();
   currentPlayer = 1;
@@ -19,113 +23,81 @@ var initializeGame = function () {
   $(".tictactoe-cell").text("");
   //Clear memory board
   $(".status").text("");
-}
-
-//Print the board
-var printBoard = function () {
-  for (var i = 0; i < 3; i++){
-    console.log(board[i].join(' | '));
-  }
-};
-
-var setPlayerSymbol = function () {
-  if (currentPlayer % 2 === 1) {
-    playerSymbol = "O";
-  } else {
-    playerSymbol = "X";
-  }
-  console.log("Playersymbol is " + playerSymbol);
-};
-
-var changePlayer = function () {
-  currentPlayer++;
-  console.log("currentPlayer is " + currentPlayer);
-};
-
-var writeSymbolToFrontEndBoard = function (cell) {
-  cell.text(playerSymbol);
-};
-
-
-var askForNewGame = function() {
-  // var box = confirm("Do you want to start a new game?");
-  // console.log("Do you want to start a new game?");
-  // if (box === true) {
-  //   initializeGame();
-  // } else {
-  //   alert("Goodbye");
-  // }
-  console.log("Ask for a new game");
-};
-
-var checkWin = function() {
-
-  //Check horizontal winner
-  for (var i = 0;i < 3; i++) {
-    if (board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
-      $(".status").text("Winner winner chicken dinner!");
-      askForNewGame();
-    }
-  }
-
-  //Check vertical winner
-  for (var i = 0;i < 3; i++) {
-    if (board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
-      $(".status").text("Winner winner chicken dinner!");
-      askForNewGame();
-    }
-  }
-
-  //Check diagonal winner
-  for (var i = 0; i < 2; i++) {
-    if (board[0][i*2] === board[1][1] && board[1][1] === board[2][2-i*2]) {
-      $(".status").text("Winner winner chicken dinner!");
-      askForNewGame();
-  }
-}
 };
 
 var clearStatus = function() {
   $(".status").text("");
 };
 
-var checkBoardFull = function () {
-  //Check if board is full
+//Print the board in memory
+var printBoard = function () {
+  for (var i = 0; i < 3; i++){
+    console.log(board[i].join(' | '));
+  }
+};
+
+//Assigns either X or O to the current player
+var setPlayerSymbol = function () {
+  if (currentPlayer % 2 === 1) {
+    playerSymbol = "O";
+  } else {
+    playerSymbol = "X";
+  }
+};
+
+var changePlayer = function () {
+  currentPlayer++;
+};
+
+var writeSymbolToFrontEndBoard = function (cell) {
+  cell.text(playerSymbol);
+};
+
+var checkWin = function() {
+  //Check horizontal winner
+  for (var i = 0;i < 3; i++) {
+    if (board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
+      setWinningDesign();
+    }
+  }
+  //Check vertical winner
+  for (var i = 0;i < 3; i++) {
+    if (board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+      setWinningDesign();
+    }
+  }
+  //Check diagonal winner
+  for (var i = 0; i < 2; i++) {
+    if (board[0][i*2] === board[1][1] && board[1][1] === board[2][2-i*2]) {
+      setWinningDesign();
+    }
+  }
+  //Check if board is full and thus game over
+  var isFull = checkIfBoardFull();
+  console.log(isFull);
+  if (isFull) {
+    $(".status").text("Game Over");
+    $("status").addClass("game-over-status");
+    $("button").addClass("game-over-button");
+  }
+};
+
+var checkIfBoardFull = function () {
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < 3; j++) {
-      if (board[i][j] === "X" || board[i][j] === "O" ) {
-        whileValue = false;
-      } else {
-        whileValue = true;
-        break;
+      if (typeof board[i][j] === "number") {
+        return false;
       }
     }
   }
-
+  return true;
 };
 
-var clickFunction = function(event) {
-  var cell = $(event.currentTarget);
-  console.log(cell);
-  console.log(cell.text());
-  console.log(cell.attr("id"));
-  var currentId = cell.attr("id");
-
-  clearStatus();
-  var isValid = checkIfValid(currentId);
-  console.log(isValid);
-  if (isValid) {
-    console.log("I am valid");
-    setPlayerSymbol();
-    putElementIntoMemoryBoard(currentId);
-    writeSymbolToFrontEndBoard(cell);
-    printBoard();
-    checkWin();
-    changePlayer();
-  } else {
-    $(".status").text("Occupied! Try another field.");
-  }
-
+var setWinningDesign = function() {
+  $(".status").text("Winner winner chicken dinner!");
+  $(".status").addClass("winner-status");
+  $("button").text("New Game");
+  $("button").addClass("green-button");
 };
 
 var checkIfValid = function (currentId) {
@@ -158,7 +130,6 @@ var checkIfValid = function (currentId) {
   }
 };
 
-
 var putElementIntoMemoryBoard = function(currentId) {
   if (currentId === "r1c1") {
     board[0][0] = playerSymbol;
@@ -181,116 +152,26 @@ var putElementIntoMemoryBoard = function(currentId) {
   }
 };
 
-var mapIdToBoard = function (playerChoice) {
-  if (playerChoice === "r1c1") {
-      //Check if field is already taken
-      if (board[0][0] === "X" || board[0][0] === "O") {
-        $(".status").text("Occupied! Try another field.");
-        currentPlayer--;
-        console.log("Playersymbol is --> " + playerSymbol);
-      } else {
-        board[0][0] = playerSymbol;
-      }
+var clickFunction = function(event) {
+  var cell = $(event.currentTarget);
+  var currentId = cell.attr("id");
+
+  clearStatus();
+  var isValid = checkIfValid(currentId);
+  if (isValid) {
+    setPlayerSymbol();
+    putElementIntoMemoryBoard(currentId);
+    writeSymbolToFrontEndBoard(cell);
+    printBoard();
+    checkWin();
+    changePlayer();
+  } else {
+    $(".status").text("Occupied! Try another field.");
   }
-
-  if (playerChoice === "r1c2") {
-      //Check if field is already taken
-      if (board[0][1] === "X" || board[0][1] === "O") {
-        $(".status").text("Occupied! Try another field.");
-        currentPlayer--;
-      } else {
-        board[0][1] = playerSymbol;
-      }
-  }
-
-  if (playerChoice === "r1c3") {
-      //Check if field is already taken
-      if (board[0][2] === "X" || board[0][2] === "O") {
-        $(".status").text("Occupied! Try another field.");
-        currentPlayer--;
-      } else {
-        board[0][2] = playerSymbol;
-      }
-  }
-
-  if (playerChoice === "r2c1") {
-      //Check if field is already taken
-      if (board[1][0] === "X" || board[1][0] === "O") {
-        $(".status").text("Occupied! Try another field.");
-        currentPlayer--;
-      } else {
-        board[1][0] = playerSymbol;
-      }
-  }
-
-  if (playerChoice === "r2c2") {
-      //Check if field is already taken
-      if (board[1][1] === "X" || board[1][1] === "O") {
-        $(".status").text("Occupied! Try another field.");
-        currentPlayer--;
-      } else {
-        board[1][1] = playerSymbol;
-      }
-  }
-
-  if (playerChoice === "r2c3") {
-      //Check if field is already taken
-      if (board[1][2] === "X" || board[1][2] === "O") {
-        $(".status").text("Occupied! Try another field.");
-        currentPlayer--;
-      } else {
-        board[1][2] = playerSymbol;
-      }
-  }
-
-  if (playerChoice === "r3c1") {
-        //Check if field is already taken
-        if (board[2][0] === "X" || board[2][0] === "O") {
-          $(".status").text("Occupied! Try another field.");
-          currentPlayer--;
-        } else {
-          board[2][0] = playerSymbol;
-        }
-    }
-
-    if (playerChoice === "r3c2") {
-        //Check if field is already taken
-        if (board[2][1] === "X" || board[2][1] === "O") {
-          $(".status").text("Occupied! Try another field.");
-          currentPlayer--;
-        } else {
-          board[2][1] = playerSymbol;
-        }
-    }
-
-    if (playerChoice === "r3c3") {
-        //Check if field is already taken
-        if (board[2][2] === "X" || board[2][2] === "O") {
-          $(".status").text("Occupied! Try another field.");
-          currentPlayer--;
-        } else {
-          board[2][2] = playerSymbol;
-        }
-    }
-
 };
-
-var buttonClick = function() {
-  initializeGame();
-};
-
 
 $(document).ready(function() {
   initializeGame();
-  console.log("Hello Quynh");
   $(".tictactoe-cell").click(clickFunction);
   $("button").click(initializeGame);
-
-
 });
-
-
-// 1.) Detect when clicked twice, Display error in red "Occupied! Try another field."
-// 2.) Find when player wins. Console log the winner
-// 3.) Display winned in status
-// 4.) Reset the game with a button

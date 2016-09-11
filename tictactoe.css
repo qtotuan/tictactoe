@@ -1,5 +1,25 @@
+.game-over-button {
+  background-color: #f21c1c;
+  border: 0px;
+}
+
+.game-over-status {
+  color: #f21c1c;
+  font-size: 25px;
+}
+
+.winner-status {
+  color: #169043;
+  font-size: 25px;
+}
+
 button {
   margin-top: 100px;
+}
+
+button.green-button {
+  background-color: #169043;
+  border: 0px;
 }
 
 .tictactoe-board {
