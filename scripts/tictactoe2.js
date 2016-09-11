@@ -22,7 +22,7 @@ var initializeGame = function () {
   //Clear frontend
   $(".tictactoe-cell").text("");
   //Clear memory board
-  $(".status").text("Player O, you're up!");
+  //$(".status").text("Player O, you're up!");
   hasWon = false;
 };
 
