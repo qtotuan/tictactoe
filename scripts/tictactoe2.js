@@ -22,7 +22,7 @@ var initializeGame = function () {
   //Clear frontend
   $(".tictactoe-cell").text("");
   //Clear memory board
-  $(".status").text("");
+  $(".status").text("Player O, you're up!");
   hasWon = false;
 };
 
@@ -164,6 +164,7 @@ var clickFunction = function(event) {
     $(".status").text("You won, stop trying!");
   } else if (isValid && hasWon === false) {
     setPlayerSymbol();
+    $(".status").text("Player " + playerSymbol + ", you're up!");
     putElementIntoMemoryBoard(currentId);
     writeSymbolToFrontEndBoard(cell);
     printBoard();
